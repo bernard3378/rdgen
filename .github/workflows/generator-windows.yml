@@ -196,7 +196,23 @@ jobs:
           sed -i -e 's|"RustDesk"|"${{ inputs.appname }}"|' ./flutter/windows/runner/Runner.rc
           # ./src/lang/en.rs
           find ./src/lang -name "*.rs" -exec sed -i -e 's|RustDesk|${{ inputs.appname }}|' {} \;
-
+          # ./src/lang/cn.rs
+          sed -i -e 's|"Slogan_tip", "在这个混乱的世界中，用心制作！"|"Slogan_tip", "智无界，创未来。"|' ./src/lang/cn.rs
+          
+      - name: change color to FFE100
+        if: inputs.appname != 'rustdesk'
+        continue-on-error: true
+        shell: bash
+        run: |
+          # ./src/ui/ab.tis
+          sed -i -e 's|#0071ff|#ffe100|' ./src/ui/ab.tis
+          # ./src/ui/common.css
+          sed -i -e 's|#0071ff|#ffe100|' ./src/ui/common.css
+          # ./flutter/lib/common.dart
+          sed -i -e 's|#0071FF|#FFE100|' ./flutter/lib/common.dart
+          # ./flutter/lib/desktop/pages/server_page.dart
+          sed -i -e 's|#0071ff|#ffe100|' ./flutter/lib/desktop/pages/server_page.dart
+        
       - name: fix registry if appname has a space
         if: contains(inputs.appname, ' ')
         continue-on-error: true
